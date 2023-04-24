@@ -35,11 +35,11 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name, location, priceRange } = req.body;
+  const { name, location, price_range } = req.body;
   try {
     const { rows: restaurants } = await db.query(
       "INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *",
-      [name, location, priceRange]
+      [name, location, price_range]
     );
     return res.json(restaurants[0]);
   } catch (error) {
@@ -59,7 +59,7 @@ router.put("/:id", async (req, res) => {
     typeof location !== "string" ||
     typeof price_range !== "number"
   ) {
-    return res.status(400).json({ error: "Inalid properties" });
+    return res.status(400).json({ error: "Invalid properties" });
   }
   try {
     const { rows: restaurants } = await db.query(
